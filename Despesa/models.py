@@ -8,7 +8,7 @@ tupla_pagamento = (('1', 'Dinheiro'), ('2', 'Cartao de Credito'), ('3', 'Cartao 
 
 
 class Despesa(models.Model):
-    data_criaçao = models.CharField(max_length=100)
+    data_criaçao = models.DateField()
     tipo_despesa = models.CharField(max_length=40, choices=tupla)
     descriçao = models.CharField(max_length=100)
     forma_pagamento = models.CharField(max_length=100, choices=tupla_pagamento)
@@ -16,6 +16,8 @@ class Despesa(models.Model):
     quitado = models.BooleanField()
     campo_temp = datetime.timedelta(days=2)
 
+    def Dias_Para_Vencimento(self):
+        return (self.vencimento - self.data_criaçao).days
 
     def __srt__(self):
-        return self.data_criaçao
+        return self.descriçao
